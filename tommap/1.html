@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>largmap</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://tileserver.com/v1/index.css" type="text/css"/>
+    <!--<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjToopwIg21ivzVCw4qfIdJlhc4OKpnkc">
+    </script>-->
+    <script src="https://tileserver.com/v1/index.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var data = {
+        "name": "largmap",
+        "version": "1.0.0",
+        "description": "",
+        "type": "overlay",
+        "format": "png",
+        "minzoom": "2",
+        "maxzoom": "4",
+        "bounds": "26.00360241,-67.52985836,114.92702940,-17.68360631",
+        "scale": "1",
+        "profile": "mercator"
+      };
+      tileserver(data);
+    </script>
+  </body>
+</html>
