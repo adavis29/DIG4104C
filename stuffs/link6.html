@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Forrest</title>
+
+	<link rel="stylesheet" href="street.css" type="text/css">
+	
+</head>
+
+<body>
+	
+	<div id="main" style="height: 2500px;">
+	
+		
+		
+		
+		<div class="street-view">
+			<video autobuffer poster="../videoimages/one/img_001.jpg">
+				<source src="compressed/MVI_01.mp4" type="video/mp4">
+				
+			</video>
+		</div>
+
+		
+
+
+		<div class="hotspot" data-position="0" data-speed="1" style="left: 130px;">
+			For the rest of the afternoon, Tom wanders about in a forest, first deciding that he will become a pirate  
+		</div>
+		
+		<div class="hotspot" data-position="0.3" data-speed="2" style="right: 130px;">
+			next trying a futile charm to locate his lost marbles, and finally encountering Joe Harper
+		</div>
+		
+		<div class="hotspot" data-position="0.4" data-speed="1.5" style="left: 130px;">
+			The boys play Robin Hood and then go home, in agreement that “they would rather be outlaws a year in Sherwood Forest than President of the United States forever.”
+		</div>
+		
+		<div class="hotspot" data-position="0.7" data-speed="0.7" style="left: 130px;">
+			#4
+		</div>
+		
+		<div class="hotspot" data-position="1" data-speed="3" style="right: 130px;">
+			#5
+		</div>
+
+
+	</div>
+		
+		
+
+
+
+	<script src="jquery-1.6.js"></script>
+    <script src="ProgressiveImageSequence.class.js"></script>
+
+
+	<script>
+		$(document).ready(function(){
+			var $doc = $(document);
+			var $win = $(window);
+
+			// dimensions - we want to cache them on window resize
+			var windowHeight, windowWidth;
+			var fullHeight, scrollHeight;
+			var streetImgWidth = 1024, streetImgHeight = 640;
+			calculateDimensions();
+
+			var currentPosition = -1, targetPosition = 0;
+			var $videoContainer = $('.street-view');
+			var video = $('.street-view > video')[0];
+			var $hotspotElements = $('[data-position]');
+
+
+			// handling resize and scroll events
+			
+			function calculateDimensions() {
+				windowWidth = $win.width();
+				windowHeight = $win.height();
+				fullHeight = $('#main').height();
+				scrollHeight = fullHeight - windowHeight;
+			}
+			
+			function handleResize() {
+				calculateDimensions();
+				resizeBackgroundImage();
+				handleScroll();
+			}
+			
+			// set the target position to the relative (0..1) scroll position
+			function handleScroll() {
+				targetPosition = $win.scrollTop() / scrollHeight;
+			}
+			
+			// main render loop
+			window.requestAnimFrame = (function(){
+			  return  window.requestAnimationFrame       ||
+			          window.webkitRequestAnimationFrame ||
+			          window.mozRequestAnimationFrame    ||
+			          window.oRequestAnimationFrame      ||
+			          window.msRequestAnimationFrame     ||
+			          function(/* function */ callback, /* DOMElement */ element){
+			            window.setTimeout(callback, 1000 / 60);
+			          };
+			})();
+
+			// on every loop: approximate current to target position
+			function animloop(){
+				if ( Math.floor(currentPosition*5000) != Math.floor(targetPosition*5000) ) {
+					currentPosition += (targetPosition - currentPosition) / 5;
+					render(currentPosition);
+				}
+			  requestAnimFrame(animloop);
+			}
+			animloop();
+
+			
+
+
+
+
+			// rendering
+
+
+			function render( position ) {
+				// position the elements
+				var minY = -windowHeight, maxY = windowHeight;
+				$.each($hotspotElements,function(index,element){
+					var $hotspot = $(element);
+					var elemPosition = Number( $hotspot.attr('data-position') );
+					var elemSpeed = Number( $hotspot.attr('data-speed') );
+					var elemY = windowHeight/2 + elemSpeed * (elemPosition-position) * scrollHeight;
+					if ( elemY < minY || elemY > maxY ) {
+						$hotspot.css({'visiblity':'none', top: '-1000px','webkitTransform':'none'});
+					} else {
+						$hotspot.css({'visiblity':'visible', top: elemY, position: 'fixed'});
+					}
+				});
+				
+				
+				renderVideo( position );
+			}
+
+
+			function renderVideo(position) {
+				if ( video.duration ) {
+					video.currentTime = position * video.duration;
+				}
+			}
+
+			function resizeBackgroundImage(){
+				// get image container size
+				var scale = Math.max( windowHeight/streetImgHeight , windowWidth/streetImgWidth );
+				var width = scale * streetImgWidth , height = scale * streetImgHeight;
+				var left = (windowWidth-width)/2, top = (windowHeight-height)/2;
+				$videoContainer
+						  .width(width).height(height)
+						  .css('position','fixed')
+						  .css('left',left+'px')
+						  .css('top',top+'px');
+			}
+
+
+			// setting up scroll and resize listeners
+
+			$win.resize( handleResize );
+			$win.scroll( handleScroll );
+
+			handleResize();
+
+
+		});
+
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
