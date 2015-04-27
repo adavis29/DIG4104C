@@ -30,28 +30,28 @@
 
 		
         
-        <div class="hotspot" data-position="0" data-speed="1" style="left: 130px;">
+        <div class="hotspot" data-position="0" data-speed="1" style="top: 50px;">
 			Tom leisurely makes his way to school. When he is late the the schoolmaster damands an explanation.   
 		</div>
 		
-		<div class="hotspot" data-position="0.25" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.2" data-speed="1" style="bottom: 50px;">
 			Tom notices an open seat on the girls’ side of the room, next to Becky Thatcher. He decides to get in trouble on purpose, knowing that he will be sent to sit with the girls as punishment.
 
 		</div>
 		
-		<div class="hotspot" data-position="0.4" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.4" data-speed="1" style="top: 50px;">
 		He boldly declares, “I stopped to talk with Huckleberry Finn!” The horrified teacher whips Tom and sends him to the seat next to Becky.
 		</div>
 		
-		<div class="hotspot" data-position="0.6" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.6" data-speed="1" style="bottom: 50px;">
 			Tom offers Becky a peach and tries to interest her by drawing a picture on his slate. Becky initially shies from Tom’s attentions, but she soon warms to him and promises to stay at school with him during lunch.
 		</div>
 		
-		<div class="hotspot" data-position="0.7" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.8" data-speed="1" style="top: 50px;">
 			Becky and Tom introduce themselves, and Tom scrawls “I love you” on his slate. At this point, the teacher collars Tom and drags him back to the boys’ side of the room.
 		</div>
         
-        <div class="hotspot" data-position="1" data-speed="2" style="right: 130px; ">
+        <div class="hotspot" data-position="1" data-speed="1" style="bottom: 50px; ">
         
         <a href="../tommap/index.html"><img src="paintbrush1.png" onmouseover="this.src='paintbrush2.png'" onmouseout="this.src='paintbrush1.png'" /></a>
         
@@ -78,7 +78,7 @@
 
 			// dimensions - we want to cache them on window resize
 			var windowHeight, windowWidth;
-			var fullHeight, scrollHeight;
+			var fullHeight, scrollHeight, scrollWidth;
 			var streetImgWidth = 1024, streetImgHeight = 640;
 			calculateDimensions();
 
@@ -94,7 +94,9 @@
 				windowWidth = $win.width();
 				windowHeight = $win.height();
 				fullHeight = $('#main').height();
+				fullWidth= $('#main').width();
 				scrollHeight = fullHeight - windowHeight;
+				scrollWidth= fullWidth - windowWidth;
 			}
 			
 			function handleResize() {
@@ -140,16 +142,16 @@
 
 			function render( position ) {
 				// position the elements
-				var minY = -windowHeight, maxY = windowHeight;
+				var minY = -windowWidth, maxY = windowWidth;
 				$.each($hotspotElements,function(index,element){
 					var $hotspot = $(element);
 					var elemPosition = Number( $hotspot.attr('data-position') );
 					var elemSpeed = Number( $hotspot.attr('data-speed') );
-					var elemY = windowHeight/2 + elemSpeed * (elemPosition-position) * scrollHeight;
+					var elemY = windowWidth/2 + elemSpeed * (elemPosition-position)*5000;
 					if ( elemY < minY || elemY > maxY ) {
-						$hotspot.css({'visiblity':'none', top: '-1000px','webkitTransform':'none'});
+						$hotspot.css({'visiblity':'none', left: '-1000px','webkitTransform':'none'});
 					} else {
-						$hotspot.css({'visiblity':'visible', top: elemY, position: 'fixed'});
+						$hotspot.css({'visiblity':'visible', left: elemY, position: 'fixed'});
 					}
 				});
 				

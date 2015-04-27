@@ -27,34 +27,33 @@
 
 		
 
-
 		
-        
-        <div class="hotspot" data-position="0" data-speed="1" style="left: 130px;">
+    
+        <div class="hotspot" data-position="0" data-speed="1" style="top: 50px;">
 			Tom wanders about in a forest, first deciding that he will become a pirate, next trying a futile charm to locate his lost marbles, and finally encountering Joe Harper.    
 		</div>
 		
-		<div class="hotspot" data-position="0.25" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.2" data-speed="1" style="bottom: 50px;">
 	The boys play Robin Hood and then go home, in agreement that “they would rather be outlaws a year in Sherwood Forest than President of the United States forever.”
 		</div>
 		
-		<div class="hotspot" data-position="0.4" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.4" data-speed="1" style="top: 50px;">
 		Later Tom and Joe ask Huck to teach them how to smoke. Huck makes them pipes, and they sit together smoking and commenting on how easy it is. 
 		</div>
 		
-		<div class="hotspot" data-position="0.6" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.6" data-speed="1" style="bottom: 50px;">
 			They imagine the effect they will produce when they go home and smoke casually in front of their friends. Eventually, however, both boys begin to feel sick, drop their pipes, and declare that they need to go look for Joe’s knife. 
 		</div>
 		
-		<div class="hotspot" data-position="0.8" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.8" data-speed="1" style="top: 50px;">
 			Huck finds them later, fast asleep in separate parts of the forest, probably after having vomited. That evening, Huck takes out his pipe and offers to prepare theirs for them, but both boys say they feel too sick—because of something they ate, they claim.
 		</div>
         
-        <div class="hotspot" data-position="1" data-speed="2" style="right: 130px;">
+        <div class="hotspot" data-position="1" data-speed="1" style="bottom: 50px;">
         <a href="../tommap/index.html"><img src="paintbrush1.png" onmouseover="this.src='paintbrush2.png'" onmouseout="this.src='paintbrush1.png'" /></a>
         </div>
 		
-        
+    
         
 		<audio autoplay> 
 		<source src="audio/forest_ambience.mp3" type="audio/mpeg">
@@ -77,7 +76,7 @@
 
 			// dimensions - we want to cache them on window resize
 			var windowHeight, windowWidth;
-			var fullHeight, scrollHeight;
+			var fullHeight, scrollHeight, scrollWidth;
 			var streetImgWidth = 1024, streetImgHeight = 640;
 			calculateDimensions();
 
@@ -93,7 +92,9 @@
 				windowWidth = $win.width();
 				windowHeight = $win.height();
 				fullHeight = $('#main').height();
+				fullWidth= $('#main').width();
 				scrollHeight = fullHeight - windowHeight;
+				scrollWidth= fullWidth - windowWidth;
 			}
 			
 			function handleResize() {
@@ -139,16 +140,16 @@
 
 			function render( position ) {
 				// position the elements
-				var minY = -windowHeight, maxY = windowHeight;
+				var minY = -windowWidth, maxY = windowWidth;
 				$.each($hotspotElements,function(index,element){
 					var $hotspot = $(element);
 					var elemPosition = Number( $hotspot.attr('data-position') );
 					var elemSpeed = Number( $hotspot.attr('data-speed') );
-					var elemY = windowHeight/2 + elemSpeed * (elemPosition-position) * scrollHeight;
+					var elemY = windowWidth/2 + elemSpeed * (elemPosition-position)*5000;
 					if ( elemY < minY || elemY > maxY ) {
-						$hotspot.css({'visiblity':'none', top: '-1000px','webkitTransform':'none'});
+						$hotspot.css({'visiblity':'none', left: '-1000px','webkitTransform':'none'});
 					} else {
-						$hotspot.css({'visiblity':'visible', top: elemY, position: 'fixed'});
+						$hotspot.css({'visiblity':'visible', left: elemY, position: 'fixed'});
 					}
 				});
 				

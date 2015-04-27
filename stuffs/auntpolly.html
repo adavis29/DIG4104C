@@ -27,28 +27,28 @@
 		
 
 
-		<div class="hotspot" data-position="0" data-speed="1" style="left: 130px;">
+		<div class="hotspot" data-position="0" data-speed="1" style="top: 50px;">
 			At the beginning of summer, Tom joins the Cadets of Temperance in order to wear one of their showy uniforms. Unfortunately, to join he must swear off smoking, tobacco chewing, and cursing—prohibitions that prove very difficult.   
 		</div>
 		
-		<div class="hotspot" data-position="0.25" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.2" data-speed="1" style="bottom: 50px;">
 			He resolves to hang on until Judge Frazier, the justice of the peace, dies, because then he can wear his red sash in the public funeral. When the judge recovers, Tom resigns from the Cadets. The judge suffers a relapse and dies that night.
 
 		</div>
 		
-		<div class="hotspot" data-position="0.4" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.4" data-speed="1" style="top: 50px;">
 			Vacation begins to drag. Becky Thatcher has gone to the town of Constantinople to stay with her parents, and the various circuses, parades, and minstrel shows that pass through town provide only temporary entertainment.
 		</div>
 		
-		<div class="hotspot" data-position="0.6" data-speed="1.8" style="right: 130px;">
+		<div class="hotspot" data-position="0.6" data-speed="1" style="bottom: 50px;">
 			The secret of Dr. Robinson’s murder still tugs at Tom’s conscience. Tom then gets the measles, and when he begins to recover, he discovers that a revival has swept through the town, leaving all his friends suddenly religious.
 		</div>
 		
-		<div class="hotspot" data-position="0.8" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.8" data-speed="1" style="top: 50px;">
 			That night brings a terrible thunderstorm, which Tom assumes must be directed at him as punishment for his sinful ways. The next day he has a relapse of the measles and stays in bed for three weeks. When he is finally on his feet again, Tom finds that all his friends have reverted to their former, impious ways.
 		</div>
         
-        <div class="hotspot" data-position="1" data-speed="2" style="right: 130px;">
+        <div class="hotspot" data-position="1" data-speed="1" style="bottom: 50px;">
         <a href="../tommap/index.html"><img src="paintbrush1.png" onmouseover="this.src='paintbrush2.png'" onmouseout="this.src='paintbrush1.png'" /></a>
         </div>
 		
@@ -73,7 +73,7 @@
 
 			// dimensions - we want to cache them on window resize
 			var windowHeight, windowWidth;
-			var fullHeight, scrollHeight;
+			var fullHeight, scrollHeight, scrollWidth;
 			var streetImgWidth = 1024, streetImgHeight = 640;
 			calculateDimensions();
 
@@ -89,7 +89,9 @@
 				windowWidth = $win.width();
 				windowHeight = $win.height();
 				fullHeight = $('#main').height();
+				fullWidth= $('#main').width();
 				scrollHeight = fullHeight - windowHeight;
+				scrollWidth= fullWidth - windowWidth;
 			}
 			
 			function handleResize() {
@@ -135,16 +137,16 @@
 
 			function render( position ) {
 				// position the elements
-				var minY = -windowHeight, maxY = windowHeight;
+				var minY = -windowWidth, maxY = windowWidth;
 				$.each($hotspotElements,function(index,element){
 					var $hotspot = $(element);
 					var elemPosition = Number( $hotspot.attr('data-position') );
 					var elemSpeed = Number( $hotspot.attr('data-speed') );
-					var elemY = windowHeight/2 + elemSpeed * (elemPosition-position) * scrollHeight;
+					var elemY = windowWidth/2 + elemSpeed * (elemPosition-position)*5000;
 					if ( elemY < minY || elemY > maxY ) {
-						$hotspot.css({'visiblity':'none', top: '-1000px','webkitTransform':'none'});
+						$hotspot.css({'visiblity':'none', left: '-1000px','webkitTransform':'none'});
 					} else {
-						$hotspot.css({'visiblity':'visible', top: elemY, position: 'fixed'});
+						$hotspot.css({'visiblity':'visible', left: elemY, position: 'fixed'});
 					}
 				});
 				
