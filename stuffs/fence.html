@@ -28,16 +28,16 @@
 		
 
 
-		<div class="hotspot" data-position="0" data-speed="1" style="left: 130px;">
+		<div class="hotspot" data-position="-.5" data-speed=".7" style="top: 130px;">
 			Tom convinces Ben Rodgers that whitewashing a fence is great pleasure, and after some bargaining, Ben agrees to give Tom his apple in exchange for the privilege of working on the fence.  
 		</div>
 		
-		<div class="hotspot" data-position="0.3" data-speed="2" style="right: 130px;">
+		<div class="hotspot" data-position="0" data-speed=".5" style="bottom: 130px;">
 			Over the course of the day, every boy who passes ends up staying to whitewash, and each one gives Tom something in exchange. 
 
 		</div>
 		
-		<div class="hotspot" data-position="0.4" data-speed="1.5" style="left: 130px;">
+		<div class="hotspot" data-position="0.7" data-speed=".3" style="top: 130px;">
 			By the time the fence has three coats, Tom has collected a hoard of miscellaneous treasures. Tom muses that all it takes to make someone want something is to make that thing hard to get.
 		</div>
 		
@@ -45,7 +45,7 @@
 			#4
 		</div>-->
 		
-		<div class="hotspot" data-position="0.7" data-speed="0.7" style="right: 130px;">
+		<div class="hotspot" data-position="1.5" data-speed="0.5" style="bottom: 130px;">
 			<a href="../tommap/index.html"><img src="paintbrush1.png" onmouseover="this.src='paintbrush2.png'" onmouseout="this.src='paintbrush1.png'" /></a>
 		</div>
 		<audio autoplay> 
@@ -131,16 +131,16 @@
 
 			function render( position ) {
 				// position the elements
-				var minY = -windowHeight, maxY = windowHeight;
+				var minY = -windowWidth, maxY = windowWidth;
 				$.each($hotspotElements,function(index,element){
 					var $hotspot = $(element);
 					var elemPosition = Number( $hotspot.attr('data-position') );
 					var elemSpeed = Number( $hotspot.attr('data-speed') );
-					var elemY = windowHeight/2 + elemSpeed * (elemPosition-position) * scrollHeight;
+					var elemY = windowWidth/2 + elemSpeed * (elemPosition-position) * scrollHeight;
 					if ( elemY < minY || elemY > maxY ) {
-						$hotspot.css({'visiblity':'none', top: '-1000px','webkitTransform':'none'});
+						$hotspot.css({'visiblity':'none', left: '-1000px','webkitTransform':'none'});
 					} else {
-						$hotspot.css({'visiblity':'visible', top: elemY, position: 'fixed'});
+						$hotspot.css({'visiblity':'visible', left: elemY, position: 'fixed'});
 					}
 				});
 				
