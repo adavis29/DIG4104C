@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>finalmap</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+html { overflow: hidden; }
+body { overflow: hidden; padding: 0; margin: 0;
+width: 100%; height: 100%; font-family: Trebuchet MS, Trebuchet, Arial, sans-serif; }
+#map { position: absolute; top: 10px; left: 10px; right: 10px; bottom: 15px; overflow: auto; }
+#footer { position: absolute; bottom: 0px; left: 0px; width:100%; height: 35px; overflow:visible; }
+@media screen and (max-width: 600px) {
+  #map { top:0px; left:0px; width:100%; height:100%;}
+}
+body { background: #08213a;}
+#header { background: #08213a; box-shadow: 0 1px 3px #CCC; border: 1px solid #08213a; }
+#header h1 { padding:7px 10px; margin:0; font-size: 28px; }
+#map { border: 1px solid #08213a; box-shadow: 0 1px 3px #08213a; background-color: #08213a;}
+#footer { text-align:center; font-size:9px; color:#08213a; }
+</style>
+<!--[if lte IE 6]>
+<style type="text/css">
+#map {
+    height:expression(document.body.clientHeight-35); /* 10+10+15=35 */
+    width:expression(document.body.clientWidth-20); /* 10+10=20 */
+}
+</style>
+<![endif]-->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+var map;
+var mapBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-62.605172, -95.832781),
+    new google.maps.LatLng(65.200130, 120.855224));
+var mapMinZoom = 3;
+var mapMaxZoom = 5;
+var maptiler = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) { 
+        var proj = map.getProjection();
+        var z2 = Math.pow(2, zoom);
+        var tileXSize = 256 / z2;
+        var tileYSize = 256 / z2;
+        var tileBounds = new google.maps.LatLngBounds(
+            proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+            proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+        );
+        var y = coord.y;
+        var x = coord.x >= 0 ? coord.x : z2 + coord.x
+        if (mapBounds.intersects(tileBounds) && (mapMinZoom <= zoom) && (zoom <= mapMaxZoom))
+            return zoom + "/" + x + "/" + y + ".jpg";
+        else
+            return "http://www.maptiler.org/img/none.png";
+    },
+    tileSize: new google.maps.Size(256, 256),
+    isPng: false,
+	name: "MapTiler",
+	alt: "MapTiler",
+	minZoom: mapMinZoom,
+	maxZoom: mapMaxZoom
+});
+function init() {
+    var opts = {
+        streetViewControl: false,
+        mapTypeId: 'maptiler',
+        backgroundColor: "rgb(8,33,58)",
+        center: new google.maps.LatLng(1.297479, 12.511222),
+        zoom: 3,
+		mapTypeControlOptions: {
+			mapTypeIds: [
+                'maptiler',
+              /*  google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
+                google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN*/
+            ]
+		},
+	}
+	map = new google.maps.Map(document.getElementById("map"), opts);
+	map.mapTypes.set('maptiler', maptiler);
+	
+// bounds of the desired area
+var allowedBounds = new google.maps.LatLngBounds(
+     new google.maps.LatLng(-62.605172, -95.832781), 
+     new google.maps.LatLng(65.200130, 120.855224)
+);
+
+//bounds!!!!!!!
+var lastValidCenter = map.getCenter();
+
+google.maps.event.addListener(map, 'center_changed', function() {
+    if (allowedBounds.contains(map.getCenter())) {
+        // still within valid bounds, so save the last valid position
+        lastValidCenter = map.getCenter();
+        return; 
+    }
+
+    // not valid anymore => return to last valid position
+    map.panTo(lastValidCenter);
+});
+
+var School = new google.maps.Marker({
+    position: new google.maps.LatLng(-1.007479, 19.511222),
+    title:"School"
+});
+School.setMap(map);
+School.setIcon('paintbrush.png')
+google.maps.event.addListener(School, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link1.html';});
+	 
+var Grave = new google.maps.Marker({
+    position: new google.maps.LatLng(8.297479, 15.511222),
+    title:"Grave"
+});
+Grave.setMap(map);
+Grave.setIcon('paintbrush.png')
+google.maps.event.addListener(Grave, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link2.html';});
+
+var Forest = new google.maps.Marker({
+    position: new google.maps.LatLng(8.297479, -13.511222),
+    title:"Forest"
+});
+Forest.setMap(map);
+Forest.setIcon('paintbrush.png')
+google.maps.event.addListener(Forest, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link3.html';});
+
+var Cave = new google.maps.Marker({
+    position: new google.maps.LatLng(-1.297479, -20.511222),
+    title:"Cave"
+});
+Cave.setMap(map);
+Cave.setIcon('paintbrush.png')
+google.maps.event.addListener(Cave, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link3.html';});
+
+var Polly = new google.maps.Marker({
+    position: new google.maps.LatLng(-8.297479, -4.511222),
+    title:"Aunt Polly's"
+});
+Polly.setMap(map);
+Polly.setIcon('paintbrush.png')
+google.maps.event.addListener(Polly, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link3.html';});
+
+var Fence = new google.maps.Marker({
+    position: new google.maps.LatLng(-13.297479, 6.511222),
+    title:"Fence"
+});
+Fence.setMap(map);
+Fence.setIcon('paintbrush.png')
+google.maps.event.addListener(Fence, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link3.html';});
+
+var Raft = new google.maps.Marker({
+    position: new google.maps.LatLng(-1.297479, 40.511222),
+    title:"Raft"
+
+});
+Raft.setMap(map);
+Raft.setIcon('paintbrush.png')
+google.maps.event.addListener(Raft, 'click', function() {
+ 	 window.location.href ='http://sulley.cah.ucf.edu/~me049855/sawyer/link3.html'; 
+	 });
+
+var Mimage = 'paintbrush.png';
+  var paintMarker = new google.maps.Marker({
+      map: map,
+	  size: new google.maps.Size(20, 32),
+      icon: Mimage
+  })
+ 
+}
+
+
+</script>
+<style>
+body{
+	background-color:#08213a;
+	 border-color:#08213a;
+}
+
+ #footer{
+	 padding:10px;
+	 z-index:10;
+	 display:block;
+	  border-color:#08213a;
+ }
+ #map{
+	 z-index:-1;
+	 border-color:#08213a;
+	  }
+ #mute{
+	 background-color:#C0B57B;
+	 color:#443103;
+	 font-family:Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+	 font-weight:bolder;
+	 border-radius:8px;
+	 border-color:#928359;
+	 border-style:solid;
+ }
+ 
+ #sound{
+	 height:25px;
+ }
+ #sound: hover{
+	 height:30px;
+ }
+
+</style>
+</head>
+<body onload="init()">
+<div id="footer">
+<audio autoplay loop id="player" src="Banana Moonshine.mp3 - Bluegrass Banjo _ Fiddle _ Free Copyright Music.mp3"></audio>
+<div>
+    <button id="mute" onclick="document.getElementById('player').muted=!document.getElementById('player').muted"><img id="sound" src="sound.png"></button>
+	</div></div>
+<div id="map"></div>
+<!--	<audio controls autoplay loop>
+  <source src="Banana Moonshine.mp3 - Bluegrass Banjo _ Fiddle _ Free Copyright Music.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>-->
+
+</body>
+</html>

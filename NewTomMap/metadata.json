@@ -1,0 +1,13 @@
+{
+  "name": "untitled folder 5",
+  "version": "1.0.0",
+  "description": "",
+  "type": "baselayer",
+  "color": "#08213A",
+  "format": "jpg",
+  "minzoom": "3",
+  "maxzoom": "5",
+  "bounds": "-95.83278069,-62.60517208,120.85522411,65.20013013",
+  "scale": "1",
+  "profile": "mercator"
+}
